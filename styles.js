@@ -12,5 +12,12 @@ export default StyleSheet.create({
     backgroundColor: "rgba(0,0,0, 0.8)",
     alignItems: "center",
     justifyContent: "center"
+  },
+  cameraView: {
+    flex: 1
+  },
+  imageView: {
+    width: "100%",
+    height: "100%"
   }
 });

@@ -3,6 +3,10 @@ import { Button, View, Text, ImageBackground } from "react-native";
 import styles from "../styles.js";
 
 class HomeScreenContent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return (
       <ImageBackground
@@ -13,8 +17,8 @@ class HomeScreenContent extends React.Component {
         <View style={styles.container}>
           <Text>Home Screen</Text>
           <Button
-            title="Send Photo"
-            onPress={() => navigation.navigate("CameraRoll")}
+            title="Take a Photo"
+            onPress={() => this.props.navigation.navigate("PhotoTake")}
           />
         </View>
       </ImageBackground>
