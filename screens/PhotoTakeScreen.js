@@ -1,6 +1,8 @@
 import React from "react";
-import { Text, View, Button, Modal, Image, CameraRoll } from "react-native";
-import { Camera, Permissions } from "expo-camera";
+import { Text, View, Button, Modal, Image } from "react-native";
+import { Camera } from "expo-camera";
+import { CameraRoll } from "@react-native-community/cameraroll";
+import * as Permissions from "expo-permissions";
 import styles from "../styles";
 
 export default class PhotoTakeScreen extends React.Component {
@@ -14,7 +16,12 @@ export default class PhotoTakeScreen extends React.Component {
     photo: null
   };
 
-  async componentWillMount() {
+  //async componentWillMount() {
+  //const { status } = await Permissions.askAsync(Permissions.CAMERA);
+  //this.setState({ hasCameraPermission: status === "granted" });
+  //}
+
+  async componentDidMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === "granted" });
   }
