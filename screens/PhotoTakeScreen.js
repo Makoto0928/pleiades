@@ -1,11 +1,20 @@
 import React from "react";
-import { Text, View, Button, Modal, Image } from "react-native";
+import {
+  Text,
+  View,
+  Button,
+  Modal,
+  Image,
+  ImageBackground
+} from "react-native";
 //import { Camera } from "expo-camera";
-import CameraRoll from "@react-native-community/cameraroll";
-import * as Permissions from "expo-permissions";
+//import CameraRoll from "@react-native-community/cameraroll";
+//import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
+import * as MediaLibrary from "expo-media-library";
 import Constants from "expo-constants";
 import styles from "../styles";
+import { AntDesign, Feather } from "@expo/vector-icons";
 
 class PhotoTakeScreen extends React.Component {
   constructor(props) {
@@ -14,23 +23,24 @@ class PhotoTakeScreen extends React.Component {
 
   state = {
     hasCameraRollPermission: null,
+    //hasCameraPermission: null,
     //type: Camera.Constants.Type.back,
     photo: null
   };
 
-  //async componentWillMount() {
-  //const { status } = await Permissions.askAsync(Permissions.CAMERA);
-  //this.setState({ hasCameraPermission: status === "granted" });
-  //}
+  // async componentDidMount() {
+  //   const { status } = await Permissions.askAsync(Permissions.CAMERA);
+  //   this.setState({ hasCameraPermission: status === "granted" });
+  // }
 
   componentDidMount() {
     this.getPerMissionAsync();
-    console.log("hi");
+    console.log("GRANTED");
   }
 
   getPerMissionAsync = async () => {
     if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { status } = await MediaLibrary.requestPermissionsAsync();
       if (status !== "granted") {
         alert("Sorry, we need camera roll permissions to make this work!");
       } else {
@@ -38,11 +48,6 @@ class PhotoTakeScreen extends React.Component {
       }
     }
   };
-
-  // async componentDidMount() {
-  //   const { status } = await Permissions.askAsync(Permissions.CAMERA);
-  //   this.setState({ hasCameraPermission: status === "granted" });
-  // }
 
   _takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
@@ -53,7 +58,7 @@ class PhotoTakeScreen extends React.Component {
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
     }
-    CameraRoll.saveToCameraRoll(result.uri); //TODO: Resolve Error FIXME: Modify Libraries dedicated to ios & android. => $ expo eject
+    MediaLibrary.saveToLibraryAsync(result.uri);
   };
 
   _pickImage = async () => {
@@ -73,19 +78,38 @@ class PhotoTakeScreen extends React.Component {
   }
 
   render() {
-    let { hasCameraRollPermission, photo } = this.state;
+    let { photo } = this.state;
     return (
-      <View style={styles.container}>
-        <Text>ImagePickerTest</Text>
-        <Button title="BootCamera" onPress={this._takePhoto} />
-        <Button title="SelectCameraRoll" onPress={this._pickImage} />
-        {
-          (hasCameraRollPermission,
-          photo && <Image source={{ uri: photo }} style={styles.imageView} />)
-        }
-      </View>
+      <ImageBackground
+        source={require("../assets/theStringsOmotesandoh.png")}
+        imageStyle={{ resizeMode: "stretch" }}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <View style={styles.container}>
+          <Text>Take Photo</Text>
+          <Feather
+            name="camera"
+            size={100}
+            color="blue"
+            onPress={this._takePhoto}
+          ></Feather>
+          <Text>Search Photo</Text>
+          <AntDesign
+            name="picture"
+            size={100}
+            color="blue"
+            onPress={this._pickImage}
+          ></AntDesign>
+          {photo && <Image source={{ uri: photo }} style={styles.imageView} />}
+        </View>
+      </ImageBackground>
     );
   }
+
+  //<Button title="BootCamera" onPress={this._takePhoto} />
+  //<Button title="SelectCameraRoll" onPress={this._pickImage} />
+  // title="BootCamera"
+  // title="SelectCameraRoll"
 
   // render() {
   //   const { hasCameraPermission } = this.state;

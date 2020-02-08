@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, View, Text, ImageBackground } from "react-native";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import styles from "../styles.js";
 
 class HomeScreenContent extends React.Component {
@@ -16,15 +17,23 @@ class HomeScreenContent extends React.Component {
       >
         <View style={styles.container}>
           <Text>Home Screen</Text>
-          <Button
-            title="Take a Photo"
+          <Feather.Button
+            name="camera"
+            size={25}
             onPress={() => this.props.navigation.navigate("PhotoTake")}
-          />
+          >
+            PhotoScreen
+          </Feather.Button>
         </View>
       </ImageBackground>
     );
   }
 }
+
+// <Button
+//   title="Take a Photo"
+//   onPress={() => this.props.navigation.navigate("PhotoTake")}
+// />
 
 const HomeScreen = ({ navigation }) => {
   return <HomeScreenContent navigation={navigation} />;
