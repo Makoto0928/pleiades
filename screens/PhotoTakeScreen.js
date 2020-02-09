@@ -1,12 +1,6 @@
 import React from "react";
-import {
-  Text,
-  View,
-  Button,
-  Modal,
-  Image,
-  ImageBackground
-} from "react-native";
+import { Modal, Image, ImageBackground, Alert } from "react-native";
+import { Container, Header, View, Text, Button, Icon, Fab } from "native-base";
 //import { Camera } from "expo-camera";
 //import CameraRoll from "@react-native-community/cameraroll";
 //import * as Permissions from "expo-permissions";
@@ -25,13 +19,18 @@ class PhotoTakeScreen extends React.Component {
     hasCameraRollPermission: null,
     //hasCameraPermission: null,
     //type: Camera.Constants.Type.back,
-    photo: null
+    photo: null,
+    modalImageViewVisible: false
   };
 
   // async componentDidMount() {
   //   const { status } = await Permissions.askAsync(Permissions.CAMERA);
   //   this.setState({ hasCameraPermission: status === "granted" });
   // }
+
+  setModalImageViewVisible(visible) {
+    this.setState({ modalImageViewVisible: visible });
+  }
 
   componentDidMount() {
     this.getPerMissionAsync();
@@ -80,29 +79,49 @@ class PhotoTakeScreen extends React.Component {
   render() {
     let { photo } = this.state;
     return (
-      <ImageBackground
-        source={require("../assets/theStringsOmotesandoh.png")}
-        imageStyle={{ resizeMode: "stretch" }}
-        style={{ width: "100%", height: "100%" }}
-      >
+      <Container>
         <View style={styles.container}>
-          <Text>Take Photo</Text>
-          <Feather
-            name="camera"
-            size={100}
-            color="blue"
-            onPress={this._takePhoto}
-          ></Feather>
-          <Text>Search Photo</Text>
-          <AntDesign
-            name="picture"
-            size={100}
-            color="blue"
-            onPress={this._pickImage}
-          ></AntDesign>
-          {photo && <Image source={{ uri: photo }} style={styles.imageView} />}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalImageViewVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+            }}
+          >
+            <View style={styles.modal}>
+              {photo && (
+                <Image source={{ uri: photo }} style={styles.imageView} />
+              )}
+            </View>
+          </Modal>
+          <ImageBackground
+            source={require("../assets/theStringsOmotesandoh3.png")}
+            imageStyle={{ resizeMode: "stretch" }}
+            style={{ width: "100%", height: "100%" }}
+          >
+            <View style={styles.container}>
+              <Text>Take Photo</Text>
+              <Feather
+                name="camera"
+                size={100}
+                color="blue"
+                onPress={this._takePhoto}
+              ></Feather>
+              <Text>Search Photo</Text>
+              <AntDesign
+                name="picture"
+                size={100}
+                color="blue"
+                onPress={this._pickImage}
+              ></AntDesign>
+              {photo && (
+                <Image source={{ uri: photo }} style={styles.imageView} />
+              )}
+            </View>
+          </ImageBackground>
         </View>
-      </ImageBackground>
+      </Container>
     );
   }
 
