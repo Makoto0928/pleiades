@@ -9,6 +9,7 @@ import * as MediaLibrary from "expo-media-library";
 import Constants from "expo-constants";
 import styles from "../styles";
 import { AntDesign, Feather } from "@expo/vector-icons";
+import photoData from './../models/PhotoData';
 
 class PhotoTakeScreen extends React.Component {
   constructor(props) {
@@ -56,6 +57,12 @@ class PhotoTakeScreen extends React.Component {
     console.log(result);
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
+      photoData.cancelled(result.cancelled);
+      photoData.height(result.height);
+      photoData.type(result.type);
+      photoData.uri(result.uri);
+      photoData.width(result.width);
+      this.props.navigation.navigate("PhotoSubmit");
     }
     MediaLibrary.saveToLibraryAsync(result.uri);
   };
@@ -69,6 +76,7 @@ class PhotoTakeScreen extends React.Component {
     console.log(result);
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
+      this.props.navigation.navigate("PhotoSubmit");
     }
   };
 
@@ -80,8 +88,33 @@ class PhotoTakeScreen extends React.Component {
     let { photo } = this.state;
     return (
       <Container>
-        <View style={styles.container}>
-          <Modal
+        <ImageBackground
+          source={require("../assets/theStringsOmotesandoh3.png")}
+          imageStyle={{ resizeMode: "stretch" }}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <View style={styles.container}>
+            <Text>Take Photo</Text>
+            <Feather
+              name="camera"
+              size={100}
+              color="blue"
+              onPress={this._takePhoto}
+            ></Feather>
+            <Text>Search Photo</Text>
+            <AntDesign
+              name="picture"
+              size={100}
+              color="blue"
+              onPress={this._pickImage}
+            ></AntDesign>
+          </View>
+        </ImageBackground>
+      </Container>
+    );
+  }
+
+  /* <Modal
             animationType="slide"
             transparent={true}
             visible={this.state.modalImageViewVisible}
@@ -94,36 +127,7 @@ class PhotoTakeScreen extends React.Component {
                 <Image source={{ uri: photo }} style={styles.imageView} />
               )}
             </View>
-          </Modal>
-          <ImageBackground
-            source={require("../assets/theStringsOmotesandoh3.png")}
-            imageStyle={{ resizeMode: "stretch" }}
-            style={{ width: "100%", height: "100%" }}
-          >
-            <View style={styles.container}>
-              <Text>Take Photo</Text>
-              <Feather
-                name="camera"
-                size={100}
-                color="blue"
-                onPress={this._takePhoto}
-              ></Feather>
-              <Text>Search Photo</Text>
-              <AntDesign
-                name="picture"
-                size={100}
-                color="blue"
-                onPress={this._pickImage}
-              ></AntDesign>
-              {photo && (
-                <Image source={{ uri: photo }} style={styles.imageView} />
-              )}
-            </View>
-          </ImageBackground>
-        </View>
-      </Container>
-    );
-  }
+          </Modal> */
 
   //<Button title="BootCamera" onPress={this._takePhoto} />
   //<Button title="SelectCameraRoll" onPress={this._pickImage} />

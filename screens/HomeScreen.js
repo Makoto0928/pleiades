@@ -25,7 +25,7 @@ class HomeScreenContent extends React.Component {
             <Feather.Button
               name="camera"
               size={25}
-              onPress={() => this.props.navigation.navigate("PhotoTake")}
+              onPress={() => this.props.navigation.navigate("PhotoSelect")}
             >
               PhotoScreen
             </Feather.Button>
