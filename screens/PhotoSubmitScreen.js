@@ -1,8 +1,10 @@
 import React from "react";
 import { Modal, Image, ImageBackground, Alert } from "react-native";
 import { Container, Header, View, Text, Button, Icon, Fab } from "native-base";
+import { Subscribe } from "unstated";
 import styles from "../styles";
 import photoData from "./../models/PhotoData";
+import PhotoContainer from "../containers/PhotoContainer";
 
 class PhotoSubmitScreen extends React.Component {
   constructor(props) {
@@ -13,23 +15,28 @@ class PhotoSubmitScreen extends React.Component {
     photo: null
   };
 
-  showPhotoForSubmit() {
-    this.setState({ photo: photoData.uri() });
-    console.log(photo);
+  showPhotoForSubmit(uri) {
+    this.setState({ photo: uri });
   }
 
   render() {
     {
-      this.showPhotoForSubmit();
+      this.showPhotoForSubmit(uri);
     }
     let { photo } = this.state;
     return (
-      <Container>
-        <View style={styles.container}>
-          <Text>yeah!</Text>
-          {photo && <Image source={{ uri: photo }} style={styles.imageView} />}
-        </View>
-      </Container>
+      <Subscribe to={[PhotoContainer]}>
+        {globalState => (
+          <Container>
+            <View style={styles.container}>
+              <Text>yeah!</Text>
+              {photo && (
+                <Image source={{ uri: photo }} style={styles.imageView} />
+              )}
+            </View>
+          </Container>
+        )}
+      </Subscribe>
     );
   }
 }

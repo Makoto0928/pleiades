@@ -57,11 +57,7 @@ class PhotoTakeScreen extends React.Component {
     console.log(result);
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
-      photoData.cancelled(result.cancelled);
-      photoData.height(result.height);
-      photoData.type(result.type);
-      photoData.uri(result.uri);
-      photoData.width(result.width);
+      //photoData.uri(result.uri);
       this.props.navigation.navigate("PhotoSubmit");
     }
     MediaLibrary.saveToLibraryAsync(result.uri);
