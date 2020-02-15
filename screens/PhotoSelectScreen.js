@@ -9,6 +9,9 @@ import * as MediaLibrary from "expo-media-library";
 import Constants from "expo-constants";
 import styles from "../styles";
 import { AntDesign, Feather } from "@expo/vector-icons";
+import axios from "axios";
+import * as FileSystem from 'expo-file-system';
+//import photoData from "./../models/PhotoData";
 
 class PhotoTakeScreen extends React.Component {
   constructor(props) {
@@ -54,10 +57,29 @@ class PhotoTakeScreen extends React.Component {
       quality: 1
     });
     console.log(result);
+    MediaLibrary.saveToLibraryAsync(result.uri);
+
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
+
+      console.log("result:", result);
+
+      const data = new FormData();
+      //let decodeData = JSON.stringify(result);
+
+      data.append("name", "TEST");
+      data.append("photo", {
+        uri: result.uri,
+        type: "image/jpg",
+        name: "testphoto"
+      });
+
+      console.log(data);
+
+      this.dataPost(data);
+      //photoData.uri(result.uri);
+      this.props.navigation.navigate("PhotoSubmit");
     }
-    MediaLibrary.saveToLibraryAsync(result.uri);
   };
 
   _pickImage = async () => {
@@ -69,7 +91,23 @@ class PhotoTakeScreen extends React.Component {
     console.log(result);
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
+      this.props.navigation.navigate("PhotoSubmit");
     }
+  };
+
+  dataPost = postDataToServer => {
+    axios
+      .post("http://192.168.11.2:3001", postDataToServer)
+      .then(result => {
+        console.log(result.data);
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response.data);
+        } else {
+          console.log(error.message);
+        }
+      });
   };
 
   setPhoto(photo) {
@@ -80,8 +118,33 @@ class PhotoTakeScreen extends React.Component {
     let { photo } = this.state;
     return (
       <Container>
-        <View style={styles.container}>
-          <Modal
+        <ImageBackground
+          source={require("../assets/theStringsOmotesandoh3.png")}
+          imageStyle={{ resizeMode: "stretch" }}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <View style={styles.container}>
+            <Text>Take Photo</Text>
+            <Feather
+              name="camera"
+              size={100}
+              color="blue"
+              onPress={this._takePhoto}
+            ></Feather>
+            <Text>Search Photo</Text>
+            <AntDesign
+              name="picture"
+              size={100}
+              color="blue"
+              onPress={this._pickImage}
+            ></AntDesign>
+          </View>
+        </ImageBackground>
+      </Container>
+    );
+  }
+
+  /* <Modal
             animationType="slide"
             transparent={true}
             visible={this.state.modalImageViewVisible}
@@ -94,36 +157,7 @@ class PhotoTakeScreen extends React.Component {
                 <Image source={{ uri: photo }} style={styles.imageView} />
               )}
             </View>
-          </Modal>
-          <ImageBackground
-            source={require("../assets/theStringsOmotesandoh3.png")}
-            imageStyle={{ resizeMode: "stretch" }}
-            style={{ width: "100%", height: "100%" }}
-          >
-            <View style={styles.container}>
-              <Text>Take Photo</Text>
-              <Feather
-                name="camera"
-                size={100}
-                color="blue"
-                onPress={this._takePhoto}
-              ></Feather>
-              <Text>Search Photo</Text>
-              <AntDesign
-                name="picture"
-                size={100}
-                color="blue"
-                onPress={this._pickImage}
-              ></AntDesign>
-              {photo && (
-                <Image source={{ uri: photo }} style={styles.imageView} />
-              )}
-            </View>
-          </ImageBackground>
-        </View>
-      </Container>
-    );
-  }
+          </Modal> */
 
   //<Button title="BootCamera" onPress={this._takePhoto} />
   //<Button title="SelectCameraRoll" onPress={this._pickImage} />

@@ -1,13 +1,17 @@
 import React from "react";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { Provider } from "unstated";
 import HomeScreen from "./screens/HomeScreen";
-import PhotoTakeScreen from "./screens/PhotoTakeScreen";
+import PhotoSelectScreen from "./screens/PhotoSelectScreen";
+import PhotoSubmitScreen from "./screens/PhotoSubmitScreen";
+import { Form } from "native-base";
 
 const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
-    PhotoTake: PhotoTakeScreen
+    PhotoSelect: PhotoSelectScreen,
+    PhotoSubmit: PhotoSubmitScreen
   },
   {
     initialRouteName: "Home"
@@ -18,7 +22,11 @@ const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component {
   render() {
-    return <AppContainer />;
+    return (
+      <Provider>
+        <AppContainer />
+      </Provider>
+    );
   }
 }
 
