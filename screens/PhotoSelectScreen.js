@@ -9,7 +9,8 @@ import * as MediaLibrary from "expo-media-library";
 import Constants from "expo-constants";
 import styles from "../styles";
 import { AntDesign, Feather } from "@expo/vector-icons";
-import photoData from './../models/PhotoData';
+import axios from "axios";
+import photoData from "./../models/PhotoData";
 
 class PhotoTakeScreen extends React.Component {
   constructor(props) {
@@ -55,12 +56,14 @@ class PhotoTakeScreen extends React.Component {
       quality: 1
     });
     console.log(result);
+    MediaLibrary.saveToLibraryAsync(result.uri);
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
+      //let decodeData = JSON.stringify(result);
+      this.dataPost(result.uri);
       //photoData.uri(result.uri);
       this.props.navigation.navigate("PhotoSubmit");
     }
-    MediaLibrary.saveToLibraryAsync(result.uri);
   };
 
   _pickImage = async () => {
@@ -74,6 +77,21 @@ class PhotoTakeScreen extends React.Component {
       this.setState({ photo: result.uri });
       this.props.navigation.navigate("PhotoSubmit");
     }
+  };
+
+  dataPost = postDataToServer => {
+    axios
+      .post("http://192.168.11.2:3001", postDataToServer)
+      .then(result => {
+        console.log(result.data);
+      })
+      .catch(error => {
+        if (error.response) {
+          console.log(error.response.data);
+        } else {
+          console.log(error.message);
+        }
+      });
   };
 
   setPhoto(photo) {

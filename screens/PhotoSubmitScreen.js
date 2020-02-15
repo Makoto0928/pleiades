@@ -11,34 +11,43 @@ class PhotoSubmitScreen extends React.Component {
     super(props);
   }
 
-  state = {
-    photo: null
-  };
-
-  showPhotoForSubmit(uri) {
-    this.setState({ photo: uri });
-  }
-
   render() {
-    {
-      this.showPhotoForSubmit(uri);
-    }
-    let { photo } = this.state;
-    return (
-      <Subscribe to={[PhotoContainer]}>
-        {globalState => (
-          <Container>
-            <View style={styles.container}>
-              <Text>yeah!</Text>
-              {photo && (
-                <Image source={{ uri: photo }} style={styles.imageView} />
-              )}
-            </View>
-          </Container>
-        )}
-      </Subscribe>
+    return(
+      <Container>
+        <View style={styles.container}>
+          <Text>Sent Photo</Text>
+        </View>
+      </Container>
     );
   }
+  // state = {
+  //   photo: null
+  // };
+
+  // showPhotoForSubmit(uri) {
+  //   this.setState({ photo: uri });
+  // }
+
+  // render() {
+  //   {
+  //     this.showPhotoForSubmit(uri);
+  //   }
+  //   let { photo } = this.state;
+  //   return (
+  //     <Subscribe to={[PhotoContainer]}>
+  //       {globalState => (
+  //         <Container>
+  //           <View style={styles.container}>
+  //             <Text>yeah!</Text>
+  //             {photo && (
+  //               <Image source={{ uri: photo }} style={styles.imageView} />
+  //             )}
+  //           </View>
+  //         </Container>
+  //       )}
+  //     </Subscribe>
+  //   );
+  // }
 }
 
 export default PhotoSubmitScreen;
