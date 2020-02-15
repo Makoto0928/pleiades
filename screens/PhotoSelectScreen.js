@@ -10,7 +10,8 @@ import Constants from "expo-constants";
 import styles from "../styles";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import axios from "axios";
-import photoData from "./../models/PhotoData";
+import * as FileSystem from 'expo-file-system';
+//import photoData from "./../models/PhotoData";
 
 class PhotoTakeScreen extends React.Component {
   constructor(props) {
@@ -57,10 +58,25 @@ class PhotoTakeScreen extends React.Component {
     });
     console.log(result);
     MediaLibrary.saveToLibraryAsync(result.uri);
+
     if (!result.cancelled) {
       this.setState({ photo: result.uri });
+
+      console.log("result:", result);
+
+      const data = new FormData();
       //let decodeData = JSON.stringify(result);
-      this.dataPost(result.uri);
+
+      data.append("name", "TEST");
+      data.append("photo", {
+        uri: result.uri,
+        type: "image/jpg",
+        name: "testphoto"
+      });
+
+      console.log(data);
+
+      this.dataPost(data);
       //photoData.uri(result.uri);
       this.props.navigation.navigate("PhotoSubmit");
     }
