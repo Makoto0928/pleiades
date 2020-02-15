@@ -10,7 +10,7 @@ import Constants from "expo-constants";
 import styles from "../styles";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import axios from "axios";
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from "expo-file-system";
 //import photoData from "./../models/PhotoData";
 
 class PhotoTakeScreen extends React.Component {
@@ -51,6 +51,7 @@ class PhotoTakeScreen extends React.Component {
     }
   };
 
+  //TODO localのキャッシュに保存されているデータではなく、binary等のimageデータをserverに渡せるようにする
   _takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: false,
@@ -95,6 +96,7 @@ class PhotoTakeScreen extends React.Component {
     }
   };
 
+  //TODO localのキャッシュに保存されているデータではなく、binary等のimageデータをserverに渡せるようにする
   dataPost = postDataToServer => {
     axios
       .post("http://192.168.11.2:3001", postDataToServer)
