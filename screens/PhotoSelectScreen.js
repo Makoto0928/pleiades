@@ -6,6 +6,7 @@ import { Container, Header, View, Text, Button, Icon, Fab } from "native-base";
 //import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
+import * as ImageManipulator from "expo-image-manipulator";
 import Constants from "expo-constants";
 import styles from "../styles";
 import { AntDesign, Feather } from "@expo/vector-icons";
@@ -55,7 +56,9 @@ class PhotoTakeScreen extends React.Component {
   _takePhoto = async () => {
     let result = await ImagePicker.launchCameraAsync({
       allowsEditing: false,
-      quality: 1
+      quality: 1,
+      //! if { base64: true } result is containing base64 data
+      base64: true
     });
     console.log(result);
     MediaLibrary.saveToLibraryAsync(result.uri);
@@ -64,6 +67,14 @@ class PhotoTakeScreen extends React.Component {
       this.setState({ photo: result.uri });
 
       console.log("result:", result);
+
+      //let dataResult = this.encodeImageDataToBase64(result.uri);
+      //console.log("base64Result-1:", dataResult);
+
+      //! { result.base64 } is image data as format of base64
+      //! send { result.base64 } to pleiades-server as json format, and decode this data to Iamge data in server
+      //TODO Kazuki!! Could you add a function to receive { result.base64 } data in pleiades-server?
+      console.log("base64Result-2:", result.base64);
 
       const data = new FormData();
       //let decodeData = JSON.stringify(result);
@@ -96,10 +107,18 @@ class PhotoTakeScreen extends React.Component {
     }
   };
 
+  //! encode image data to base64 data method (failed)
+  // encodeImageDataToBase64 = async imageUri => {
+  //   let encoderesult = await ImageManipulator.manipulateAsync(imageUri, {
+  //     base64: true
+  //   });
+  //   return encoderesult;
+  // };
+
   //TODO localのキャッシュに保存されているデータではなく、binary等のimageデータをserverに渡せるようにする
   dataPost = postDataToServer => {
     axios
-      .post("http://192.168.11.2:3001", postDataToServer)
+      .post("http://192.168.100.101:3001", postDataToServer)
       .then(result => {
         console.log(result.data);
       })
