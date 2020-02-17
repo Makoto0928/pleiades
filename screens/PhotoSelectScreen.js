@@ -73,8 +73,11 @@ class PhotoTakeScreen extends React.Component {
 
       //! { result.base64 } is image data as format of base64
       //! send { result.base64 } to pleiades-server as json format, and decode this data to Iamge data in server
-      //TODO Kazuki!! Could you add a function to receive { result.base64 } data in pleiades-server?
+      //FIXME:  Kazuki!! Could you add a function to receive { result.base64 } data in pleiades-server?
       console.log("base64Result-2:", result.base64);
+
+      //! post image data encoded base64 method
+      this.dataPost(result);
 
       const data = new FormData();
       //let decodeData = JSON.stringify(result);
@@ -88,8 +91,12 @@ class PhotoTakeScreen extends React.Component {
 
       console.log(data);
 
-      this.dataPost(data);
-      //photoData.uri(result.uri);
+      //this.dataPost(data);
+      let request = new XMLHttpRequest();
+      request.open("POST", "http://192.168.100.101:3001");
+      request.send(data);
+
+      //TODO  display "Sending (or Loading) screen" until server receives base64 data or return receiving message.
       this.props.navigation.navigate("PhotoSubmit");
     }
   };
@@ -115,7 +122,7 @@ class PhotoTakeScreen extends React.Component {
   //   return encoderesult;
   // };
 
-  //TODO localのキャッシュに保存されているデータではなく、binary等のimageデータをserverに渡せるようにする
+  //TODO  localのキャッシュに保存されているデータではなく、binary等のimageデータをserverに渡せるようにする
   dataPost = postDataToServer => {
     axios
       .post("http://192.168.100.101:3001", postDataToServer)
