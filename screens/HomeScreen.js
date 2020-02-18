@@ -20,15 +20,61 @@ class HomeScreenContent extends React.Component {
           imageStyle={{ resizeMode: "stretch" }}
           style={{ width: "100%", height: "100%" }} //    resizeMode: 'stretch', ...otherStyles
         >
-          <View style={styles.container}>
-            <Text>Home Screen</Text>
-            <Feather.Button
-              name="camera"
-              size={25}
-              onPress={() => this.props.navigation.navigate("PhotoSelect")}
-            >
-              PhotoScreen
-            </Feather.Button>
+          <View style={styles.homeTileParent}>
+            <View style={styles.HomeTileChild}>
+              <View style={styles.homeTileGrandChild1}>
+                <Feather.Button
+                  name="camera"
+                  size={25}
+                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                >
+                  PhotoScreen
+                </Feather.Button>
+              </View>
+              <View style={styles.homeTileGrandChild2}>
+                <Feather.Button
+                  name="camera"
+                  size={25}
+                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                >
+                  PhotoScreen
+                </Feather.Button>
+              </View>
+            </View>
+            <View style={styles.HomeTileChild}>
+              <View style={styles.homeTileGrandChild2}>
+                <Feather.Button
+                  name="camera"
+                  size={25}
+                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                >
+                  PhotoScreen
+                </Feather.Button>
+              </View>
+              <View style={styles.homeTileGrandChild1}>
+                <Feather.Button
+                  name="camera"
+                  size={25}
+                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                >
+                  PhotoScreen
+                </Feather.Button>
+              </View>
+            </View>
+            <View style={styles.HomeTileChild}>
+              <View style={styles.homeTileGrandChild1}>
+                <Feather.Button
+                  name="camera"
+                  size={25}
+                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                >
+                  PhotoScreen
+                </Feather.Button>
+              </View>
+              <View style={styles.homeTileGrandChild2}>
+                <Text>Home Screen</Text>
+              </View>
+            </View>
             <Fab
               active={this.state.active}
               direction="up"
