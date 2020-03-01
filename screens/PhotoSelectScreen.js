@@ -21,7 +21,7 @@ class PhotoTakeScreen extends React.Component {
 
   state = {
     hasCameraRollPermission: null,
-    //hasCameraPermission: null,
+    hasCameraPermission: null,
     //type: Camera.Constants.Type.back,
     photo: null,
     modalImageViewVisible: false
@@ -43,11 +43,13 @@ class PhotoTakeScreen extends React.Component {
 
   getPerMissionAsync = async () => {
     if (Constants.platform.ios) {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+      const { statusC } = await ImagePicker.requestCameraPermissionsAsync();
+      const { statusCR } = await MediaLibrary.requestPermissionsAsync();
+      if ((statusC !== "granted") || (statusCR !== "granted")) {
+        alert("Sorry, we need permissions to make this work!"); //Sorry, we need camera roll permissions to make this work!
       } else {
-        this.setState({ hasCameraRollPermission: status === "granted" });
+        this.setState({ hasCameraPermission: statusC === "granted" });
+        this.setState({ hasCameraRollPermission: statusCR === "granted" });
       }
     }
   };
@@ -93,7 +95,7 @@ class PhotoTakeScreen extends React.Component {
 
       //this.dataPost(data);
       let request = new XMLHttpRequest();
-      request.open("POST", "http://192.168.100.101:3001");
+      request.open("POST", "http://192.168.100.107:3001");
       request.send(data);
 
       //TODO  display "Sending (or Loading) screen" until server receives base64 data or return receiving message.
