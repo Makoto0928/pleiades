@@ -5,13 +5,15 @@ import { Provider } from "unstated";
 import HomeScreen from "./screens/HomeScreen";
 import PhotoSelectScreen from "./screens/PhotoSelectScreen";
 import PhotoSubmitScreen from "./screens/PhotoSubmitScreen";
+import WeddingPamphletScreen from "./screens/WeddingPamphletScreen";
 import { Form } from "native-base";
 
 const AppNavigator = createStackNavigator(
   {
     Home: HomeScreen,
     PhotoSelect: PhotoSelectScreen,
-    PhotoSubmit: PhotoSubmitScreen
+    PhotoSubmit: PhotoSubmitScreen,
+    WeddingPamphlet: WeddingPamphletScreen
   },
   {
     initialRouteName: "Home"
