@@ -24,9 +24,9 @@ class HomeScreenContent extends React.Component {
             <View style={styles.HomeTileChild}>
               <View style={styles.homeTileGrandChild1}>
                 <Feather.Button
-                  name="camera"
+                  name="Pamphlet"
                   size={25}
-                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                  onPress={() => this.props.navigation.navigate("WeddingPamphlet")}
                 >
                   PhotoScreen
                 </Feather.Button>
@@ -44,9 +44,9 @@ class HomeScreenContent extends React.Component {
             <View style={styles.HomeTileChild}>
               <View style={styles.homeTileGrandChild2}>
                 <Feather.Button
-                  name="camera"
+                  name="Pamphlet"
                   size={25}
-                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                  onPress={() => this.props.navigation.navigate("WeddingPamphlet")}
                 >
                   PhotoScreen
                 </Feather.Button>
@@ -64,9 +64,9 @@ class HomeScreenContent extends React.Component {
             <View style={styles.HomeTileChild}>
               <View style={styles.homeTileGrandChild1}>
                 <Feather.Button
-                  name="camera"
+                  name="Pamphlet"
                   size={25}
-                  onPress={() => this.props.navigation.navigate("PhotoSelect")}
+                  onPress={() => this.props.navigation.navigate("WeddingPamphlet")}
                 >
                   PhotoScreen
                 </Feather.Button>
